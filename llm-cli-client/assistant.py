@@ -151,7 +151,8 @@ def regex_invoice(text: str) -> dict:
     import re
     def find(pattern):
         m=re.search(pattern,text,re.I|re.M); return m.group(1).strip() if m else None
-    total=find(r"(?:grand\s+)?total\s*[:\-]?\s*(?:AED|USD|INR|₹|\$)?\s*([\d,]+\.\d{2})")
+    # Do not treat the "total" inside "subtotal" as the invoice total.
+    total=find(r"(?<![A-Za-z])(?:grand\s+)?total\s*[:\-]?\s*(?:AED|USD|INR|₹|\$)?\s*([\d,]+\.\d{2})")
     return {"invoice_number":find(r"invoice\s*(?:no|number|#)\s*[:#-]?\s*([A-Z0-9/-]+)"),
             "invoice_date":find(r"date\s*[:\-]?\s*(\d{1,4}[/-]\d{1,2}[/-]\d{1,4})"),
             "vendor":find(r"(?m)^([A-Z][A-Za-z &.,'-]{2,})$"),
