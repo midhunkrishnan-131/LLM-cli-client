@@ -12,6 +12,11 @@ def test_divide_zero():
     except ValueError: return
     assert False
 
+def test_regex_total_skips_subtotal():
+    assert regex_invoice("SUBTOTAL: USD 10.00\nTOTAL: USD 12.50\n")["total"] == 12.5
+    assert regex_invoice("Subtotal: AED 480.00\nGrand Total: AED 504.00\n")["total"] == 504.0
+    assert regex_invoice("subtotal: 3.00\n")["total"] is None
+
 def test_regex_fixture():
     from pathlib import Path
     data=(Path(__file__).parents[1]/"data"/"invoice_ocr.txt").read_text()
