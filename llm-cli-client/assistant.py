@@ -157,7 +157,7 @@ def regex_invoice(text: str) -> dict:
             "invoice_date":find(r"date\s*[:\-]?\s*(\d{1,4}[/-]\d{1,2}[/-]\d{1,4})"),
             "vendor":find(r"(?m)^([A-Z][A-Za-z &.,'-]{2,})$"),
             "total":float(total.replace(",","")) if total else None,
-            "currency":find(r"\b(AED|USD|INR)\b|([₹$])")}
+            "currency":find(r"(\b(?:AED|USD|INR)\b|[₹$])")}
 
 def stateless_demo(client: OpenAI):
     print("\n=== STATELESS PROOF ===")
